@@ -1,3 +1,5 @@
+package example.util;
+
 public class Main {
 
 

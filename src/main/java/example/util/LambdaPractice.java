@@ -1,6 +1,13 @@
-import java.util.*;
+package example.util;
 
-public class Lamda {
+import org.jspecify.annotations.Nullable;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
+
+public class LambdaPractice {
     public static void main(String[] args) {
 
         Runnable r
@@ -30,14 +37,21 @@ public class Lamda {
 
 
     // This is a simple print of an array using functional programming
-    private static void printArray(List<Integer> arr) {
-        arr.forEach(element -> System.out.println(element + " "));
+    @Nullable
+    public static String printArray(List<Integer> arr) {
+
+        if (arr == null) {
+            return null;
+        }
+        return arr.stream()
+                .map(ele -> ele + " ")
+                .collect(Collectors.joining());
     }
 
     // Finds the sum of all the even numbers in the array and multiplys them by 2
-    private static void addArray(List<Integer> arr) {
+    public static int addArray(List<Integer> arr) {
         final int fact = 2;
-        System.out.println(
+        return(
                 arr.stream()
                         .filter(element -> element % 2 == 0)
                         .mapToInt(num -> num * fact)
@@ -45,29 +59,27 @@ public class Lamda {
     }
 
     // iterates through array, filters any non-even number, then subtracts 10 from each number and adds them all up
-    private static void subtractArray(List<Integer> arr) {
-        final int sumNegativ = 0;
-        final int answer =
-                arr.stream()
-                        .filter(ele -> ele % 2 == 0)
-                        .mapToInt(ele2 -> ele2 - 10)
-                                .sum();
-        System.out.println(answer);
+    public static int subtractArray(List<Integer> arr) {
+        final int answer;
+        answer = arr.stream()
+                .filter(ele -> ele % 2 == 0)
+                .mapToInt(ele2 -> ele2 - 10)
+                        .sum();
+        return answer;
     }
 
     // Using optional to filter through every element in the array for null
-    private static void usingOptional(List<Integer> arr) {
-        arr.stream()
-                .map(Optional::ofNullable)
-                .forEach(ele -> ele.ifPresentOrElse(
-                        elePrint -> System.out.print(elePrint), ()-> System.out.print("null")
+    public static void usingOptional(List<Integer> arr) {
+        arr
+                .forEach(ele -> ofNullable(ele).ifPresentOrElse(
+                        System.out::print, ()-> System.out.print("null")
                 ));
     }
 
     // Checks the entire array itself if null, then if not, will call usingOptional()
-    private static void usingOptionalWhole(List<Integer> arr) {
-        Optional.ofNullable(arr)
-                .ifPresentOrElse(array -> usingOptional(array), () -> System.out.print("Whole array is null"));
+    public static void usingOptionalWhole(List<Integer> arr) {
+        ofNullable(arr)
+                .ifPresentOrElse(LambdaPractice::usingOptional, () -> System.out.print("Whole array is null"));
     }
 
 }

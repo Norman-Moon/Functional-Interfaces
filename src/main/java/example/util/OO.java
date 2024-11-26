@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+package example.util;
+
 import java.util.Scanner;
 
 public class OO {
